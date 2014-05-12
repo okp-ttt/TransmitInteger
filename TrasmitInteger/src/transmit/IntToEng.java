@@ -29,8 +29,7 @@ public class IntToEng {
     	}else if(n<20){
     		return teens[n-10];
     	}else if(n<100) {
-    		if(n%10==0) return tens_place[n/10-2];
-    		return tens_place[n/10-2]+ones_place[n%10-1];
+    		return transTens(n);
     	}else if(n<1000) {
     		return transHundred(n);
     	} else if(n<1000000) {
@@ -40,28 +39,33 @@ public class IntToEng {
         return "null";
     }
 
+	public static String transTens(int n) {
+		if(n%10==0) return tens_place[n/10-2];
+		return tens_place[n/10-2]+ones_place[n%10-1];
+	}
+
     static String transHundred(int n) {
-	String s = "";
+	String str = "";
 	boolean flag = false;
 
 	int nh = n/100;
 	if(nh != 0) {
-	    s += ones_place[nh-1]+" hundred ";
+	    str += ones_place[nh-1]+" hundred ";
 	}
 	
 	int nt = (n-nh*100)/10;
 	if(nt == 1) {
 	    flag = true;
 	} else if(nt != 0) {
-	    s += tens_place[nt-2];
+	    str += tens_place[nt-2];
 	}
 	
 	int no = n % 10;
 	if(flag) {
-	    s += teens[no];
+	    str += teens[no];
 	} else if(no != 0) {
-	    s += ones_place[no-1];
+	    str += ones_place[no-1];
 	}
-	return s;
+	return str;
     }
 }
