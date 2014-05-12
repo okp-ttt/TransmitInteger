@@ -7,7 +7,7 @@ public class IntToEng {
 	public static String[] ones_place = {"one","two","three","four",
 			"five","six","seven","eight","nine"};
 	public static String[] teens = {"ten","eleven","twelve","thirteen","fourteen","fifteen",
-		"sixteen","eighteen","nineteen"};
+		"sixteen","seventeen","eighteen","nineteen"};
 	public static String[] tens_place = {"twenty ","thirty ","forty ","fifty ",
 		"sixty ","seventy ","eighty ","ninety "};
 	public static String[] zeros = {"zero","ten","hundred"};
@@ -31,11 +31,37 @@ public class IntToEng {
     	}else if(n<100) {
     		if(n%10==0) return tens_place[n/10-2];
     		return tens_place[n/10-2]+ones_place[n%10-1];
-    	}else if(n<1000){
-    		return ones_place[n/100]+"hundred"+tens_place[(n%(n/100))/]+ones_place[n%(n/100)%(n%(n/100)/10)];
-    		
+    	}else if(n<1000) {
+    		return transHundred(n);
+    	} else if(n<1000000) {
+    		return transHundred(n/1000)
+    				+ " thousand " + transHundred(n-n/1000*1000);
     	}
-    	
         return "null";
+    }
+
+    static String transHundred(int n) {
+	String s = "";
+	boolean flag = false;
+
+	int nh = n/100;
+	if(nh != 0) {
+	    s += ones_place[nh-1]+" hundred ";
+	}
+	
+	int nt = (n-nh*100)/10;
+	if(nt == 1) {
+	    flag = true;
+	} else if(nt != 0) {
+	    s += tens_place[nt-2];
+	}
+	
+	int no = n % 10;
+	if(flag) {
+	    s += teens[no];
+	} else if(no != 0) {
+	    s += ones_place[no-1];
+	}
+	return s;
     }
 }
